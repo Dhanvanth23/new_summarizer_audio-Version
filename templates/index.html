@@ -17,15 +17,13 @@
                 <option value="url">URL</option>
                 <option value="text">Copy-Paste Text</option>
             </select>
-            <br><br>
-
+            
             <label for="language">Choose Language:</label>
             <select id="language" name="language">
                 <option value="en">English</option>
                 <option value="ta">Tamil</option>
             </select>
-            <br><br>
-
+            
             <div id="url_input" class="input-group">
                 <label for="url">Enter News Article URL:</label>
                 <input type="text" id="url" name="url" placeholder="https://example.com/news-article">
@@ -33,10 +31,9 @@
 
             <div id="text_input" class="input-group" style="display: none;">
                 <label for="text">Paste News Article Text:</label>
-                <textarea id="text" name="text" rows="10" placeholder="Paste your news article here..."></textarea>
+                <textarea id="text" name="text" rows="8" placeholder="Paste your news article here..."></textarea>
             </div>
-            <br>
-
+            
             <button type="submit" class="submit-btn">
                 <span class="btn-text">Summarize</span>
                 <span class="loader" id="loader"></span>
@@ -66,15 +63,10 @@
 
     <script>
         function toggleInput() {
-            var urlInput = document.getElementById('url_input');
-            var textInput = document.getElementById('text_input');
-            if (document.getElementById('input_type').value === 'url') {
-                urlInput.style.display = 'block';
-                textInput.style.display = 'none';
-            } else {
-                urlInput.style.display = 'none';
-                textInput.style.display = 'block';
-            }
+            document.getElementById('url_input').style.display = 
+                document.getElementById('input_type').value === 'url' ? 'block' : 'none';
+            document.getElementById('text_input').style.display = 
+                document.getElementById('input_type').value === 'text' ? 'block' : 'none';
         }
 
         function showLoader() {
@@ -82,14 +74,11 @@
             document.querySelector('.btn-text').style.display = 'none';
         }
 
-        // Dark/Light Theme Toggle
-        const themeToggle = document.getElementById('theme-toggle');
-        const body = document.body;
-
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-theme');
-            body.classList.toggle('light-theme');
-            themeToggle.textContent = body.classList.contains('dark-theme') ? '🌙' : '☀️';
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            document.body.classList.toggle('light-theme');
+            document.getElementById('theme-toggle').textContent = 
+                document.body.classList.contains('dark-theme') ? '🌙' : '☀️';
         });
     </script>
 </body>
