@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Summarizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <div class="container">
+        <h1>News Summarizer</h1>
+        <button id="theme-toggle" class="theme-toggle">🌙</button>
+        <form method="POST" onsubmit="showLoader()">
+            <label for="input_type">Choose Input Type:</label>
+            <select id="input_type" name="input_type" onchange="toggleInput()">
+                <option value="url">URL</option>
+                <option value="text">Copy-Paste Text</option>
+            </select>
+            <br><br>
+
+            <label for="language">Choose Language:</label>
+            <select id="language" name="language">
+                <option value="en">English</option>
+                <option value="ta">Tamil</option>
+            </select>
+            <br><br>
+
+            <div id="url_input" class="input-group">
+                <label for="url">Enter News Article URL:</label>
+                <input type="text" id="url" name="url" placeholder="https://example.com/news-article">
+            </div>
+
+            <div id="text_input" class="input-group" style="display: none;">
+                <label for="text">Paste News Article Text:</label>
+                <textarea id="text" name="text" rows="10" placeholder="Paste your news article here..."></textarea>
+            </div>
+            <br>
+
+            <button type="submit" class="submit-btn">
+                <span class="btn-text">Summarize</span>
+                <span class="loader" id="loader"></span>
+            </button>
+        </form>
+
+        {% if summary %}
+        <div class="summary-box">
+            <h2>Summary</h2>
+            <p>{{ summary }}</p>
+            {% if audio_file %}
+            <h3>Listen to the Summary:</h3>
+            <audio controls>
+                <source src="{{ url_for('static', filename='audio/summary.mp3') }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="toast error">
+            {{ error }}
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function toggleInput() {
+            var urlInput = document.getElementById('url_input');
+            var textInput = document.getElementById('text_input');
+            if (document.getElementById('input_type').value === 'url') {
+                urlInput.style.display = 'block';
+                textInput.style.display = 'none';
+            } else {
+                urlInput.style.display = 'none';
+                textInput.style.display = 'block';
+            }
+        }
+
+        function showLoader() {
+            document.getElementById('loader').style.display = 'inline-block';
+            document.querySelector('.btn-text').style.display = 'none';
+        }
+
+        // Dark/Light Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-theme');
+            body.classList.toggle('light-theme');
+            themeToggle.textContent = body.classList.contains('dark-theme') ? '🌙' : '☀️';
+        });
+    </script>
+</body>
+</html>
