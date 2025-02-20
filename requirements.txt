@@ -1,0 +1,7 @@
+Flask
+transformers
+torch
+requests
+beautifulsoup4
+mtranslate
+gtts
